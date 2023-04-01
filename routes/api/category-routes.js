@@ -5,10 +5,10 @@ const { Category, Product } = require('../../models');
 
 router.get('/', async (req, res) => {
   try{
-    const userData = await Category.findAll({include: [Product]})
-    res.status(200).json(userData);
+    const categoryData = await Category.findAll({ include: [Product] });
+    res.status(200).json(categoryData);
   } catch(err){
-    res.status(400).json(err);
+    res.status(500).json(err);
   }
     
     
@@ -18,12 +18,13 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try{
-  const userId = await Category.findOne({
-    where:{
-      id: req.product.id,
+  const categoryId = await Category.findOne({
+    where: {
+      id: req.params.id,
     },
-    include: [Product]})
-    res.status(200).json(userId);
+    include: [Product]
+  });
+    res.status(200).json(categoryId);
    }   
       catch(err){
     res.status(400).json(err);
@@ -33,20 +34,20 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  try{const userData = await Category.create(req.body);
-    res.status(200).json(userId);
+  try{const categoryData = await Category.create(req.body);
+    res.status(200).json(categoryData);
     }
     catch(err){res.status(400).json(err);}
   // create a new category
 });
 
 router.put('/:id', async (req, res) => {
-  try{const userData = await Category.update(req.body,{
-    where:{
+  try{const categoryId = await Category.update(req.body, {
+    where: {
       id: req.params.id,
-    }
-  })
-    res.status(200).json(userData);
+    },
+  });
+    res.status(200).json(categoryId);
     }
     
     catch(err) {res.status(400).json(err)}
@@ -55,8 +56,8 @@ router.put('/:id', async (req, res) => {
 
 
 router.delete('/:id', async (req, res) => {
-  try {const userData = await Category.destroy({where: {id: req.params.id}})
-  res.status(200).json(userData);
+  try {const categoryData = await Category.destroy({ where: { id: req.params.id } });
+  res.status(200).json(categoryData);
   }
   
   catch(err){res.status(400).json(err)}
